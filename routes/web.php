@@ -37,13 +37,29 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->mid
 Route::get('/reset-password', [ResetPasswordController::class, 'create'])->middleware('guest')->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'store'])->middleware('guest')->name('password.update');
 
-Route::get('email/verify', function () {return view('auth.verify-email');})->middleware('auth')->name('verification.notice');
+Route::get('email/verify', function (Request $request) {
+
+    if($request->user()->hasVerifiedEmail()) {
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    if($request->user()->hasVerifiedEmail()) {
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
     $request->fulfill();
 
     return redirect()->intended(RouteServiceProvider::HOME);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('email/verification-notification', function (Request $request) {
+
+    if($request->user()->hasVerifiedEmail()) {
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
     $request->user()->sendEmailVerificationNotification();
 
     return back()->with('status', 'Verification link sent!');
@@ -52,4 +68,8 @@ Route::post('email/verification-notification', function (Request $request) {
 /*
  * Refactoring and verify password for delete
  * https://www.youtube.com/watch?v=w5rRA6zjVSk
+ */
+/*
+ * Refactoring controllers Email
+ * https://www.youtube.com/watch?v=OINbPEo9ta4
  */
