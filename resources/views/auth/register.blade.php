@@ -1,154 +1,94 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.base')
+@section('page.title', 'Sign Up')
+@section('content')
 
-    <title>Sign-In</title>
+<main class="form-signin w-100 m-auto">
+    <form class="needs-validation" style="margin-top: 100px;" action="{{ route('register') }}" method="POST">
+        @csrf
+        <h1 class="h3 mb-4 fw-normal">Please Sign Up </h1>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+        <div class="form-floating">
 
-    <!-- Styles -->
-    <style>
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        input {
-            margin-bottom: 10px;
-            height: 25px;
-            padding: 0 5px;
-        }
-        .error {
-            border-color: #ff0000;
-        }
-        .error::placeholder {
-            color: #ff7474;
-        }
-        .error_message {
-            color: #ff7474;
-            text-align: start;
-            text-align: start;
-        }
-        button {
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: black;
-            color: white;
-        }
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-
-        ul {
-            text-align: start;
-        }
-        .checkbox {font-size: 14px; text-align: start; margin: 5px 0}
-        .checkbox > input {
-            padding: 0;
-            height: auto;
-            margin: 0;
-        }
-        .link_forgot {
-            margin: 10px 0 0 0;
-            font-size: 14px;
-            color: #43869f;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            <a href="{{ url('/') }}">Back</a>
-            @auth
-                <a href="{{ route('/logout') }}">Log out</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
-            @endauth
-        </div>
-    @endif
-
-    <div class="content">
-        <form action="{{ route('register') }}" method="POST">
-            @csrf
-            <label>
-                <h1>Sign-In</h1>
-            </label>
-            @error('name')
-                <label for="name" class="error_message">{{ $message  }}</label>
-            @enderror
-            <input value="{{ old('login') }}" autofocus id="name" class="{{ $errors->has('name') ? 'error' : '' }}" type="text" placeholder="Login" name="name">
+            <input required name="email" value="{{ old('email') }}" autofocus type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="floatingInput" placeholder="name@example.com...">
             @error('email')
-                <label for="email" class="error_message">{{ $message  }}</label>
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @else
+            <div class="valid-feedback">
+                Looks good!
+            </div>
             @enderror
-            <input value="{{ old('email') }}" id="email" class="{{ $errors->has('email') ? 'error' : '' }}" type="text" placeholder="Mail" name="email">
-            @error('password')
-                <label for="password" class="error_message">{{ $message  }}</label>
-            @enderror
-            <input id="password" class="{{ $errors->has('password') ? 'error' : '' }}" type="password" placeholder="Password" name="password">
-            @if($errors->has('password_confirmation'))
-                <label for="password_confirmation" class="error_message">Passwords don't match</label>
-            @elseif($errors->has('password'))
-                <label for="password_confirmation" class="error_message">Enter the field</label>
-            @endif
-            <input id="password_confirmation" class="{{ $errors->has('password_confirmation') || $errors->has('password') ? 'error' : '' }}" type="password" placeholder="Repeat Password" name="password_confirmation">
-            <button type="submit">Sign In</button>
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
 
-            <a class="link_forgot" href="{{ route('login') }}">Already have an account?</a>
-        </form>
-    </div>
-</div>
-</body>
-</html>
+            <input required name="name" value="{{ old('name') }}" type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" id="floatingLogin" placeholder="Name...">
+            @error('name')
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @else
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            @enderror
+            <label for="floatingLogin">Login</label>
+        </div>
+        <div class="form-floating">
+
+            <input required name="password" type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" id="floatingPassword" placeholder="Password...">
+            @error('password')
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @else
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            @enderror
+            <label for="floatingLogin">Password</label>
+        </div>
+        <div class="form-floating">
+
+            <input required name="password_confirmation" type="password" class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}" id="floatingPasswordConfirm" placeholder="Password...">
+
+            @if($errors->has('password_confirmation'))
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @elseif($errors->has('password'))
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @else
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            @endif
+            <label for="floatingPasswordConfirm">Password Confirmed</label>
+        </div>
+
+
+        <div class="form-check text-start my-3">
+            <input required name="check_privacy" class="form-check-input" type="checkbox" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                    I accept the <a href="#">Privacy Policy</a>
+            </label>
+            @if($errors->has('check_privacy'))
+            <div class="invalid-feedback">
+                {{ $message  }}
+            </div>
+            @else
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            @endif
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        <a class="link_forgot" href="{{ route('login') }}">Already have an account?</a>
+
+    </form>
+</main>
+@endsection
 
