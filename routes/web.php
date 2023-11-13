@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ChatsController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {return view('welcome');})->name('welcome');
+
+//Route::get('/chats', [ChatsController::class, 'create'])->middleware('auth')->name('chats');
 
 Route::view('/dashboard', 'dashboard')->middleware('auth', 'verified')->name('dashboard');
 
@@ -73,3 +76,7 @@ Route::post('email/verification-notification', function (Request $request) {
  * Refactoring controllers Email
  * https://www.youtube.com/watch?v=OINbPEo9ta4
  */
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

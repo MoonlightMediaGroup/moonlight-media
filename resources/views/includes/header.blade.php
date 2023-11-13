@@ -12,6 +12,9 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{{ route('dashboard') }}">Blog</a>
           </li>
+{{--          <li class="nav-item">--}}
+{{--            <a class="nav-link" aria-current="page" href="{{ route('chats') }}">Chats</a>--}}
+{{--          </li>--}}
         @endauth
 
         </ul>

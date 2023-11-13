@@ -117,8 +117,9 @@
 <!--Content-->
 @yield('content')
 
-
-@include('includes.footer')
+@if (Route::currentRouteName() != 'chats')
+    @include('includes.footer')
+@endif
 
 <!--Bootstrap JS CDN-->
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
